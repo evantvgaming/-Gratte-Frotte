@@ -1,293 +1,636 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <title>Scratch Life</title>
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:#eef1f5;text-align:center;color:#222}
-header{background:#20242c;color:white;padding:15px;position:sticky;top:0;z-index:10}
-button{padding:10px 15px;margin:6px;border:0;border-radius:8px;font-weight:bold;cursor:pointer}
-.nav button{background:#3d4655;color:white}
-.card{background:white;max-width:760px;margin:20px auto;padding:20px;border-radius:15px;box-shadow:0 3px 12px #bbb}
-.hidden{display:none}
-#carBox{width:360px;height:210px;margin:20px auto;background:#222;border-radius:24px;padding:18px}
-#window{width:100%;height:100%;background:#82cfff;border-radius:18px;position:relative;overflow:hidden}
-.dirt{position:absolute;width:55px;height:55px;background:#79502c;border-radius:50%;opacity:.8}
-.sponge{font-size:42px}
-.ticket{width:330px;margin:15px auto;padding:15px;border-radius:18px;color:white;background:linear-gradient(135deg,#273c75,#e84118)}
-.ticket h3{margin:5px}
-.scratchArea{position:relative;width:280px;height:120px;margin:15px auto;background:#fff;color:#111;border-radius:10px;overflow:hidden}
-.result{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:bold}
-canvas{position:absolute;inset:0}
-.green{background:#51cf66}.blue{background:#339af0;color:white}.gold{background:#ffd43b}.red{background:#ff6b6b}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#101820;
+  color:white;
+  overflow-x:hidden;
+}
+.game{
+  display:grid;
+  grid-template-columns:270px 1fr 280px;
+  min-height:100vh;
+}
+.left,.right{
+  background:#101722;
+  padding:12px;
+  border-right:3px solid #05080d;
+}
+.right{border-right:0;border-left:3px solid #05080d}
+.money{
+  font-size:30px;
+  color:#ffd43b;
+  font-weight:bold;
+}
+button{
+  border:0;
+  border-radius:8px;
+  padding:10px;
+  margin:5px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.tab{background:#2364aa;color:white;width:45%}
+.item{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  background:#17263a;
+  padding:10px;
+  margin:10px 0;
+  border-radius:10px;
+  cursor:pointer;
+  border:2px solid transparent;
+}
+.item.active{border-color:#ffd43b;background:#244b80}
+.item.locked{opacity:.45}
+.icon{
+  width:55px;height:55px;
+  background:#0b3d70;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+}
+.main{
+  background:#3b2a1d;
+  padding:25px;
+  position:relative;
+}
+.shop{
+  background:#8b5a32;
+  border:10px solid #5c351e;
+  border-radius:18px;
+  min-height:680px;
+  padding:25px;
+  box-shadow:inset 0 0 30px #2b1609;
+}
+.sign{
+  background:#c62828;
+  color:white;
+  padding:12px;
+  border-radius:10px;
+  text-align:center;
+  font-size:30px;
+  font-weight:bold;
+  box-shadow:0 5px #681313;
+}
+.counter{
+  background:#b9824a;
+  border:8px solid #6b3d1f;
+  border-radius:12px;
+  margin-top:25px;
+  min-height:520px;
+  padding:25px;
+  position:relative;
+}
+.shelves{
+  display:flex;
+  justify-content:space-around;
+  background:#3a2414;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:20px;
+}
+.shelfItem{
+  font-size:40px;
+  background:#73441f;
+  padding:10px;
+  border-radius:8px;
+}
+.ticket{
+  width:620px;
+  min-height:380px;
+  margin:20px auto;
+  border-radius:12px;
+  padding:20px;
+  position:relative;
+  background:linear-gradient(135deg,#073b75,#0c63bd);
+  border:3px dashed #9bd2ff;
+  box-shadow:0 10px 25px #0009;
+}
+.gold{background:linear-gradient(135deg,#6b4300,#e0a21d)}
+.red{background:linear-gradient(135deg,#641313,#dc3d3d)}
+.green{background:linear-gradient(135deg,#064b2a,#1aa865)}
+.purple{background:linear-gradient(135deg,#33135d,#8e44ad)}
+.ticketTitle{
+  font-size:42px;
+  color:#ffd43b;
+  font-weight:900;
+  text-shadow:3px 3px #000;
+}
+.rule{font-size:18px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,110px);
+  gap:18px;
+  margin-top:25px;
+}
+.box{
+  width:110px;
+  height:90px;
+  background:#eee;
+  color:#111;
+  border-radius:50%;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  font-weight:bold;
+}
+.box canvas{position:absolute;inset:0}
+.info{
+  position:absolute;
+  top:110px;
+  right:20px;
+  background:#10294d;
+  border:2px solid #74c0fc;
+  border-radius:10px;
+  padding:15px;
+  width:180px;
+}
+.price{
+  position:absolute;
+  right:25px;
+  bottom:15px;
+  font-size:34px;
+  font-weight:bold;
+}
+.cleanArea{
+  width:620px;
+  height:360px;
+  margin:20px auto;
+  background:#222;
+  border:12px solid #111;
+  border-radius:24px;
+  position:relative;
+  overflow:hidden;
+}
+.window{
+  position:absolute;
+  inset:25px;
+  background:#74c0fc;
+  border-radius:18px;
+  overflow:hidden;
+}
+.dirt{
+  position:absolute;
+  width:70px;
+  height:70px;
+  background:#6b3f1e;
+  border-radius:50%;
+  opacity:.85;
+}
+.sponge{
+  position:absolute;
+  font-size:45px;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  display:none;
+}
+.upgrade,.codeBox,.history{
+  background:#17263a;
+  padding:14px;
+  margin:12px 0;
+  border-radius:12px;
+}
+input{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:0;
+  margin-top:8px;
+}
+.log{
+  background:#0b111c;
+  padding:10px;
+  border-radius:8px;
+  margin:8px 0;
+}
+.resultAnim{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  font-size:70px;
+  font-weight:900;
+  z-index:99;
+  background:#0009;
+  animation:pop .6s ease;
+}
+@keyframes pop{
+  0%{transform:scale(.3);opacity:0}
+  60%{transform:scale(1.2);opacity:1}
+  100%{transform:scale(1)}
+}
+@media(max-width:1100px){
+  .game{grid-template-columns:1fr}
+  .ticket,.cleanArea{width:100%}
+}
 </style>
 </head>
 <body>
 
-<header>
-<h1>Scratch Life</h1>
-<p><span id="moneyLabel">Money</span>: <b id="money">0</b>€ | <span id="luckLabel">Luck</span>: <b id="luck">0</b>%</p>
-<div class="nav">
-<button onclick="show('clean')" id="cleanTab">Cleaning</button>
-<button onclick="show('shop')" id="shopTab">Shop</button>
-<button onclick="show('tickets')" id="ticketsTab">Tickets</button>
-<button onclick="toggleLang()" id="langBtn">FR</button>
+<div class="resultAnim" id="anim"></div>
+
+<div class="game">
+
+<aside class="left">
+  <div class="money">🪙 <span id="money">76</span> €</div>
+  <p>Niveau <span id="level">1</span> — XP <span id="xp">0</span>/100</p>
+
+  <button class="tab" onclick="mode='tickets';render()">Tickets</button>
+  <button class="tab" onclick="mode='clean';render()">Nettoyage</button>
+
+  <h3>Tickets du tabac</h3>
+  <div id="ticketList"></div>
+</aside>
+
+<main class="main">
+  <div class="shop">
+    <div class="sign">TABAC — SCRATCH LIFE</div>
+
+    <div class="shelves">
+      <div class="shelfItem">🚬</div>
+      <div class="shelfItem">📰</div>
+      <div class="shelfItem">☕</div>
+      <div class="shelfItem">🎟️</div>
+      <div class="shelfItem">☎️</div>
+    </div>
+
+    <div class="counter" id="center"></div>
+  </div>
+</main>
+
+<aside class="right">
+  <h2>Améliorations</h2>
+
+  <div class="upgrade">
+    🍀 <b>Chance</b><br>
+    Niveau : <span id="chanceLevel">1</span><br>
+    Prix : <span id="chanceCost">500</span>€<br>
+    <button onclick="buyChance()">Améliorer</button>
+  </div>
+
+  <div class="upgrade">
+    🧽 <b>Nettoyage</b><br>
+    Gain : <span id="cleanGain">5</span>€<br>
+    Prix : <span id="cleanCost">100</span>€<br>
+    <button onclick="buyCleanUpgrade()">Améliorer</button>
+  </div>
+
+  <div class="codeBox">
+    <b>Code secret</b>
+    <input id="codeInput" placeholder="Entre un code">
+    <button onclick="useCode()">Valider</button>
+  </div>
+
+  <h2>Historique</h2>
+  <div id="history"></div>
+</aside>
+
 </div>
-</header>
-
-<section id="clean" class="card">
-<h2 id="cleanTitle">Clean the car window</h2>
-<p id="cleanDesc">Drag the sponge on the dirty window. When it is clean, you earn 5€.</p>
-<div class="sponge">🧽</div>
-<div id="carBox"><div id="window"></div></div>
-<button class="blue" onclick="resetWindow()" id="resetBtn">New dirty window</button>
-</section>
-
-<section id="shop" class="card hidden">
-<h2 id="shopTitle">Shop</h2>
-<button class="green" onclick="buyLuck()" id="luckBtn">Buy +20% luck for 5 minutes — 15€</button>
-</section>
-
-<section id="tickets" class="card hidden">
-<h2 id="ticketsTitle">Scratch Tickets</h2>
-<div id="ticketList"></div>
-</section>
-
-<section class="card">
-<h2 id="historyTitle">History</h2>
-<p id="log">Welcome to Scratch Life.</p>
-</section>
 
 <script>
-let money=0,luck=0,lang="en",cleaned=0,luckTimer=null,currentCanvas=null,currentTicket=null;
-
-const txt={
-en:{money:"Money",luck:"Luck",clean:"Cleaning",shop:"Shop",tickets:"Tickets",cleanTitle:"Clean the car window",cleanDesc:"Drag the sponge on the dirty window. When it is clean, you earn 5€.",reset:"New dirty window",shopTitle:"Shop",luckBtn:"Buy +20% luck for 5 minutes — 15€",ticketsTitle:"Scratch Tickets",history:"History",cleanWin:"Window cleaned. You earned 5€.",noMoney:"Not enough money.",luckOn:"Luck boost activated.",luckOff:"Luck boost ended.",buy:"Buy",scratch:"Scratch the grey area",lost:"Lost",won:"Won"},
-fr:{money:"Argent",luck:"Chance",clean:"Nettoyage",shop:"Boutique",tickets:"Tickets",cleanTitle:"Nettoyer la vitre",cleanDesc:"Déplace l’éponge sur la vitre sale. Quand elle est propre, tu gagnes 5€.",reset:"Nouvelle vitre sale",shopTitle:"Boutique",luckBtn:"Acheter +20% de chance pendant 5 minutes — 15€",ticketsTitle:"Tickets à gratter",history:"Historique",cleanWin:"Vitre nettoyée. Tu as gagné 5€.",noMoney:"Pas assez d’argent.",luckOn:"Boost de chance activé.",luckOff:"Boost de chance terminé.",buy:"Acheter",scratch:"Gratte la zone grise",lost:"Perdu",won:"Gagné"}
-};
+let money=76;
+let xp=0;
+let level=1;
+let selected=0;
+let mode="tickets";
+let chanceLevel=1;
+let cleanLevel=1;
+let cleanGain=5;
+let infiniteMoney=false;
+let ticketFinished=false;
 
 const tickets=[
-{name:"Mini Cash",price:2,max:20,type:"number"},
-{name:"Lucky Match",price:5,max:50,type:"match"},
-{name:"Gold Rush",price:10,max:120,type:"number"},
-{name:"Treasure Box",price:15,max:200,type:"symbol"},
-{name:"X Bonus",price:20,max:300,type:"multi"},
-{name:"Diamond Line",price:25,max:400,type:"match"},
-{name:"Fast Fortune",price:30,max:500,type:"number"},
-{name:"Mega Star",price:40,max:750,type:"symbol"},
-{name:"Cash Rocket",price:50,max:1000,type:"multi"},
-{name:"Royal Scratch",price:75,max:1500,type:"number"},
-{name:"Lucky Crown",price:100,max:2000,type:"symbol"},
-{name:"Money Storm",price:125,max:2500,type:"match"},
-{name:"Golden Key",price:150,max:3000,type:"symbol"},
-{name:"Xtreme Win",price:200,max:5000,type:"multi"},
-{name:"Fortune Wheel",price:250,max:7000,type:"number"},
-{name:"Big Vault",price:300,max:9000,type:"symbol"},
-{name:"Silver Rain",price:400,max:12000,type:"match"},
-{name:"Neon Jackpot",price:500,max:15000,type:"multi"},
-{name:"Legend Ticket",price:750,max:25000,type:"number"},
-{name:"Dream Million",price:1000,max:50000,type:"symbol"}
+  {name:"Mini Ticket",icon:"🎟️",price:1,max:20,rule:"symbol",level:1,style:""},
+  {name:"Doublette ⭐",icon:"2x",price:10,max:2000,rule:"double",level:1,style:""},
+  {name:"Trésor",icon:"💰",price:20,max:5000,rule:"chest",level:2,style:"gold"},
+  {name:"Numéro Fétiche",icon:"7️⃣",price:30,max:8000,rule:"number",level:3,style:"red"},
+  {name:"Coffre d’Or",icon:"🔐",price:50,max:15000,rule:"symbol",level:4,style:"green"},
+  {name:"Néon Jackpot",icon:"💎",price:100,max:30000,rule:"double",level:5,style:"purple"}
 ];
 
-function show(id){
-["clean","shop","tickets"].forEach(x=>document.getElementById(x).classList.add("hidden"));
-document.getElementById(id).classList.remove("hidden");
+function update(){
+  document.getElementById("money").textContent=infiniteMoney?"∞":money;
+  document.getElementById("xp").textContent=xp;
+  document.getElementById("level").textContent=level;
+  document.getElementById("chanceLevel").textContent=chanceLevel;
+  document.getElementById("chanceCost").textContent=chanceLevel*500;
+  document.getElementById("cleanGain").textContent=cleanGain;
+  document.getElementById("cleanCost").textContent=cleanLevel*100;
+  renderList();
 }
 
-function upd(){
-money=Math.floor(money);
-document.getElementById("money").textContent=money;
-document.getElementById("luck").textContent=luck;
+function addHistory(text){
+  const div=document.createElement("div");
+  div.className="log";
+  div.innerHTML=text;
+  document.getElementById("history").prepend(div);
 }
 
-function log(m){document.getElementById("log").textContent=m}
-
-function applyLang(){
-let t=txt[lang];
-document.documentElement.lang=lang;
-moneyLabel.textContent=t.money; luckLabel.textContent=t.luck;
-cleanTab.textContent=t.clean; shopTab.textContent=t.shop; ticketsTab.textContent=t.tickets;
-cleanTitle.textContent=t.cleanTitle; cleanDesc.textContent=t.cleanDesc; resetBtn.textContent=t.reset;
-shopTitle.textContent=t.shopTitle; luckBtn.textContent=t.luckBtn;
-ticketsTitle.textContent=t.ticketsTitle; historyTitle.textContent=t.history;
-langBtn.textContent=lang==="en"?"FR":"EN";
-renderTickets();
-}
-function toggleLang(){lang=lang==="en"?"fr":"en";applyLang()}
-
-function resetWindow(){
-const w=document.getElementById("window");
-w.innerHTML="";
-cleaned=0;
-for(let i=0;i<18;i++){
-let d=document.createElement("div");
-d.className="dirt";
-d.style.left=Math.random()*300+"px";
-d.style.top=Math.random()*155+"px";
-w.appendChild(d);
-}
+function anim(text,color){
+  const a=document.getElementById("anim");
+  a.textContent=text;
+  a.style.color=color;
+  a.style.display="flex";
+  setTimeout(()=>a.style.display="none",1200);
 }
 
-document.getElementById("window").addEventListener("mousemove",cleanMove);
-document.getElementById("window").addEventListener("touchmove",e=>{
-e.preventDefault();
-let r=e.target.getBoundingClientRect();
-let touch=e.touches[0];
-cleanAt(touch.clientX-r.left,touch.clientY-r.top);
-},{passive:false});
-
-function cleanMove(e){
-if(e.buttons!==1)return;
-let r=e.target.getBoundingClientRect();
-cleanAt(e.clientX-r.left,e.clientY-r.top);
+function gainXp(n){
+  xp+=n;
+  if(xp>=100){
+    xp-=100;
+    level++;
+    anim("NIVEAU +1 ⭐","#ffd43b");
+    addHistory("⭐ Niveau supérieur : "+level);
+  }
 }
 
-function cleanAt(x,y){
-document.querySelectorAll(".dirt").forEach(d=>{
-let dx=parseFloat(d.style.left)+25-x;
-let dy=parseFloat(d.style.top)+25-y;
-if(Math.sqrt(dx*dx+dy*dy)<45){
-d.remove();
-cleaned++;
-}
-});
-if(document.querySelectorAll(".dirt").length===0){
-money+=5;
-log(txt[lang].cleanWin);
-upd();
-resetWindow();
-}
-}
-
-function buyLuck(){
-if(money<15){log(txt[lang].noMoney);return}
-money-=15;luck=20;upd();log(txt[lang].luckOn);
-clearTimeout(luckTimer);
-luckTimer=setTimeout(()=>{luck=0;upd();log(txt[lang].luckOff)},300000);
-}
-
-function renderTickets(){
-let list=document.getElementById("ticketList");
-list.innerHTML="";
-tickets.forEach((tk,i)=>{
-let div=document.createElement("div");
-div.className="ticket";
-div.innerHTML=`
-<h3>${tk.name}</h3>
-<p>${txt[lang].money}: ${tk.price}€ | Max: ${tk.max}€</p>
-<p>${txt[lang].scratch}</p>
-<button class="gold" onclick="buyTicket(${i})">${txt[lang].buy}</button>
-<div id="play${i}"></div>`;
-list.appendChild(div);
-});
+function renderList(){
+  const list=document.getElementById("ticketList");
+  list.innerHTML="";
+  tickets.forEach((t,i)=>{
+    const locked=level<t.level;
+    const div=document.createElement("div");
+    div.className="item "+(i===selected?"active ":"")+(locked?"locked":"");
+    div.onclick=()=>{
+      if(locked)return;
+      selected=i;
+      mode="tickets";
+      render();
+    };
+    div.innerHTML=`
+      <div class="icon">${t.icon}</div>
+      <div>
+        <b>${locked?"Verrouillé":t.name}</b><br>
+        ${locked?"Niveau "+t.level+" requis":t.price+" €"}<br>
+        Gain max : ${locked?"?":t.max+"€"}
+      </div>`;
+    list.appendChild(div);
+  });
 }
 
-function buyTicket(i){
-let tk=tickets[i];
-if(money<tk.price){log(txt[lang].noMoney);return}
-money-=tk.price;upd();
-let prize=calculatePrize(tk);
-let zone=document.getElementById("play"+i);
-zone.innerHTML="";
-let area=document.createElement("div");
-area.className="scratchArea";
-
-let result=document.createElement("div");
-result.className="result";
-result.innerHTML=createTicketText(tk,prize);
-
-let canvas=document.createElement("canvas");
-canvas.width=280;canvas.height=120;
-
-area.appendChild(result);
-area.appendChild(canvas);
-zone.appendChild(area);
-setupScratch(canvas,prize,tk);
+function render(){
+  if(mode==="clean") renderClean();
+  else renderTicket();
+  update();
 }
 
-function calculatePrize(tk){
-let base=35+luck;
-let roll=Math.random()*100;
-if(roll>base)return 0;
-let prize=Math.floor(Math.random()*tk.max)+1;
-if(tk.type==="multi" && Math.random()<0.25) prize*=2;
-return prize;
+function renderTicket(){
+  ticketFinished=false;
+  const t=tickets[selected];
+  const center=document.getElementById("center");
+
+  if(!infiniteMoney && money<t.price){
+    center.innerHTML=`<h2>Pas assez d’argent pour ${t.name}</h2><p>Va nettoyer une vitre, petit entrepreneur du trottoir.</p>`;
+    return;
+  }
+
+  if(!infiniteMoney) money-=t.price;
+
+  const winChance=20+chanceLevel*5;
+  const isWin=Math.random()*100<winChance;
+  const prize=isWin?Math.floor(Math.random()*t.max)+1:0;
+  const values=generateValues(t.rule,isWin,prize);
+
+  center.innerHTML=`
+    <div class="ticket ${t.style}">
+      <div class="ticketTitle">${t.name}</div>
+      <p class="rule">${ruleText(t.rule)}</p>
+      <div class="grid" id="grid"></div>
+      <div class="info">
+        <h3>Gain jusqu’à</h3>
+        <h2>${t.max}€</h2>
+        <p>Prix : ${t.price}€</p>
+        <p>Chance : ${winChance}%</p>
+      </div>
+      <div class="price">${t.price}€</div>
+    </div>
+    <p>Gratte directement les zones grises.</p>
+  `;
+
+  const grid=document.getElementById("grid");
+  values.forEach(v=>{
+    const box=document.createElement("div");
+    box.className="box";
+    box.innerHTML=`<span>${v}</span>`;
+    const c=document.createElement("canvas");
+    c.width=110;
+    c.height=90;
+    box.appendChild(c);
+    grid.appendChild(box);
+    setupScratch(c,prize,t);
+  });
+
+  addHistory("🎟️ Ticket acheté : "+t.name+" (-"+t.price+"€)");
+  update();
 }
 
-function createTicketText(tk,prize){
-if(tk.type==="number"){
-let win=Math.floor(Math.random()*20)+1;
-let yours=[1,2,3,4,5].map(()=>Math.floor(Math.random()*20)+1);
-if(prize>0)yours[2]=win;
-return `Win: ${win}<br>Your numbers: ${yours.join(" - ")}<br>${prize>0?txt[lang].won+" "+prize+"€":txt[lang].lost}`;
-}
-if(tk.type==="match"){
-let a=Math.floor(Math.random()*9)+1,b=prize>0?a:Math.floor(Math.random()*9)+1;
-if(prize===0 && a===b)b=(b%9)+1;
-return `${a} / ${b}<br>${prize>0?txt[lang].won+" "+prize+"€":txt[lang].lost}`;
-}
-if(tk.type==="symbol"){
-let symbols=["⭐","💎","🔑","👑","🍀"];
-let s=prize>0?"👑":symbols[Math.floor(Math.random()*symbols.length)];
-return `Find 👑<br>${s}<br>${prize>0?txt[lang].won+" "+prize+"€":txt[lang].lost}`;
-}
-if(tk.type==="multi"){
-let mult=prize>0?2:1;
-return `Multiplier: x${mult}<br>${prize>0?txt[lang].won+" "+prize+"€":txt[lang].lost}`;
-}
+function ruleText(rule){
+  if(rule==="symbol")return"Trouvez 3 symboles identiques.";
+  if(rule==="double")return"Trouvez 2 sommes identiques.";
+  if(rule==="number")return"Trouvez le numéro gagnant.";
+  if(rule==="chest")return"Trouvez la clé du coffre.";
 }
 
-function setupScratch(canvas,prize,tk){
-let ctx=canvas.getContext("2d");
-ctx.fillStyle="#999";
-ctx.fillRect(0,0,canvas.width,canvas.height);
-ctx.fillStyle="#ddd";
-ctx.font="20px Arial";
-ctx.fillText("SCRATCH",90,65);
-ctx.globalCompositeOperation="destination-out";
-
-function scratch(x,y){
-ctx.beginPath();
-ctx.arc(x,y,18,0,Math.PI*2);
-ctx.fill();
-check(canvas,prize,tk);
+function generateValues(rule,isWin,prize){
+  if(rule==="symbol"){
+    if(isWin)return["👑","👑","👑","🍀","⭐","💎"];
+    return["🍀","⭐","💎","🔔","👑","🍒"];
+  }
+  if(rule==="double"){
+    if(isWin)return[prize+"€",prize+"€","10€","20€","50€","100€"];
+    return["5€","10€","20€","50€","100€","200€"];
+  }
+  if(rule==="number"){
+    let n=Math.floor(Math.random()*9)+1;
+    if(isWin)return["N° "+n,n,"2","4","6","8"];
+    return["N° "+n,"1","3","5","7","9"];
+  }
+  if(rule==="chest"){
+    if(isWin)return["🔑","💰","💰","❌","❌","❌"];
+    return["❌","💰","❌","💰","❌","💰"];
+  }
 }
 
-canvas.addEventListener("mousemove",e=>{
-if(e.buttons!==1)return;
-let r=canvas.getBoundingClientRect();
-scratch(e.clientX-r.left,e.clientY-r.top);
-});
-canvas.addEventListener("touchmove",e=>{
-e.preventDefault();
-let r=canvas.getBoundingClientRect();
-let t=e.touches[0];
-scratch(t.clientX-r.left,t.clientY-r.top);
-},{passive:false});
+function setupScratch(canvas,prize,ticket){
+  const ctx=canvas.getContext("2d");
+  ctx.fillStyle="#bbb";
+  ctx.fillRect(0,0,110,90);
+  ctx.fillStyle="#777";
+  ctx.font="30px Arial";
+  ctx.fillText("?",47,55);
+  ctx.globalCompositeOperation="destination-out";
+
+  function scratch(x,y){
+    ctx.beginPath();
+    ctx.arc(x,y,18,0,Math.PI*2);
+    ctx.fill();
+    checkTicket(prize,ticket);
+  }
+
+  canvas.addEventListener("mousemove",e=>{
+    if(e.buttons!==1)return;
+    const r=canvas.getBoundingClientRect();
+    scratch(e.clientX-r.left,e.clientY-r.top);
+  });
+
+  canvas.addEventListener("touchmove",e=>{
+    e.preventDefault();
+    const r=canvas.getBoundingClientRect();
+    const touch=e.touches[0];
+    scratch(touch.clientX-r.left,touch.clientY-r.top);
+  },{passive:false});
 }
 
-let checked=false;
-function check(canvas,prize,tk){
-let ctx=canvas.getContext("2d");
-let data=ctx.getImageData(0,0,canvas.width,canvas.height).data;
-let clear=0;
-for(let i=3;i<data.length;i+=4){if(data[i]===0)clear++}
-let percent=clear/(canvas.width*canvas.height)*100;
-if(percent>55){
-canvas.style.display="none";
-if(prize>0){
-money+=prize;
-log(`${tk.name}: ${txt[lang].won} ${prize}€`);
-}else{
-log(`${tk.name}: ${txt[lang].lost}`);
-}
-upd();
-}
+function checkTicket(prize,ticket){
+  if(ticketFinished)return;
+
+  const canvases=[...document.querySelectorAll(".box canvas")];
+  let total=0;
+
+  canvases.forEach(c=>{
+    const ctx=c.getContext("2d");
+    const data=ctx.getImageData(0,0,110,90).data;
+    let clear=0;
+    for(let i=3;i<data.length;i+=4){
+      if(data[i]===0)clear++;
+    }
+    if(clear/(110*90)*100>55){
+      c.style.display="none";
+      total++;
+    }
+  });
+
+  if(total===canvases.length){
+    ticketFinished=true;
+
+    if(prize>0){
+      money+=prize;
+      gainXp(20);
+      anim("GAGNÉ +" + prize + "€","lime");
+      addHistory("✅ "+ticket.name+" : gagné +"+prize+"€");
+    }else{
+      gainXp(8);
+      anim("PERDU","red");
+      addHistory("❌ "+ticket.name+" : perdu");
+    }
+
+    update();
+  }
 }
 
-resetWindow();
-applyLang();
-upd();
+function renderClean(){
+  const center=document.getElementById("center");
+  center.innerHTML=`
+    <h2>Nettoyage de vitre</h2>
+    <p>Maintiens la souris ou ton doigt et frotte les taches.</p>
+    <div class="cleanArea" id="cleanArea">
+      <div class="window" id="window"></div>
+      <div class="sponge" id="sponge">🧽</div>
+    </div>
+  `;
+
+  const w=document.getElementById("window");
+  for(let i=0;i<18;i++){
+    const d=document.createElement("div");
+    d.className="dirt";
+    d.style.left=Math.random()*500+"px";
+    d.style.top=Math.random()*250+"px";
+    w.appendChild(d);
+  }
+
+  const area=document.getElementById("cleanArea");
+  const sponge=document.getElementById("sponge");
+
+  function cleanAt(x,y){
+    sponge.style.display="block";
+    sponge.style.left=x+"px";
+    sponge.style.top=y+"px";
+
+    document.querySelectorAll(".dirt").forEach(d=>{
+      const rect=d.getBoundingClientRect();
+      const ar=area.getBoundingClientRect();
+      const dx=(rect.left-ar.left+35)-x;
+      const dy=(rect.top-ar.top+35)-y;
+      if(Math.sqrt(dx*dx+dy*dy)<55)d.remove();
+    });
+
+    if(document.querySelectorAll(".dirt").length===0){
+      money+=cleanGain;
+      gainXp(5);
+      anim("VITRE PROPRE +" + cleanGain + "€","#51cf66");
+      addHistory("🧽 Vitre nettoyée : +"+cleanGain+"€");
+      setTimeout(renderClean,900);
+      update();
+    }
+  }
+
+  area.addEventListener("mousemove",e=>{
+    if(e.buttons!==1)return;
+    const r=area.getBoundingClientRect();
+    cleanAt(e.clientX-r.left,e.clientY-r.top);
+  });
+
+  area.addEventListener("touchmove",e=>{
+    e.preventDefault();
+    const r=area.getBoundingClientRect();
+    const t=e.touches[0];
+    cleanAt(t.clientX-r.left,t.clientY-r.top);
+  },{passive:false});
+}
+
+function buyChance(){
+  const cost=chanceLevel*500;
+  if(!infiniteMoney && money<cost){
+    addHistory("❌ Pas assez d’argent.");
+    return;
+  }
+  if(!infiniteMoney)money-=cost;
+  chanceLevel++;
+  anim("CHANCE +1 🍀","#51cf66");
+  update();
+}
+
+function buyCleanUpgrade(){
+  const cost=cleanLevel*100;
+  if(!infiniteMoney && money<cost){
+    addHistory("❌ Pas assez d’argent.");
+    return;
+  }
+  if(!infiniteMoney)money-=cost;
+  cleanLevel++;
+  cleanGain+=5;
+  anim("NETTOYAGE +1 🧽","#74c0fc");
+  update();
+}
+
+function useCode(){
+  const code=document.getElementById("codeInput").value;
+  if(code==="3000"){
+    infiniteMoney=true;
+    anim("ARGENT INFINI 💸","#ffd43b");
+    addHistory("💸 Code 3000 activé : argent infini.");
+  }else{
+    anim("CODE FAUX","red");
+  }
+  update();
+}
+
+render();
 </script>
+
 </body>
 </html>

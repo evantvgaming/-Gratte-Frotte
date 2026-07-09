@@ -5,270 +5,66 @@
 <title>Scratch Life</title>
 <style>
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#101820;
-  color:white;
-  overflow-x:hidden;
-}
-.game{
-  display:grid;
-  grid-template-columns:270px 1fr 280px;
-  min-height:100vh;
-}
-.left,.right{
-  background:#101722;
-  padding:12px;
-  border-right:3px solid #05080d;
-}
-.right{border-right:0;border-left:3px solid #05080d}
-.money{
-  font-size:30px;
-  color:#ffd43b;
-  font-weight:bold;
-}
-button{
-  border:0;
-  border-radius:8px;
-  padding:10px;
-  margin:5px;
-  font-weight:bold;
-  cursor:pointer;
-}
-.tab{background:#2364aa;color:white;width:45%}
-.item{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  background:#17263a;
-  padding:10px;
-  margin:10px 0;
-  border-radius:10px;
-  cursor:pointer;
-  border:2px solid transparent;
-}
+body{margin:0;font-family:Arial,sans-serif;background:#151923;color:white}
+.game{display:grid;grid-template-columns:280px 1fr 290px;min-height:100vh}
+.left,.right{background:#121824;padding:12px}
+.main{background:#242734;padding:20px}
+.money{font-size:32px;color:#ffd43b;font-weight:bold}
+button{border:0;border-radius:8px;padding:10px;margin:5px;font-weight:bold;cursor:pointer}
+.item{display:flex;gap:10px;background:#17263a;margin:10px 0;padding:10px;border-radius:10px;cursor:pointer;border:2px solid transparent}
 .item.active{border-color:#ffd43b;background:#244b80}
-.item.locked{opacity:.45}
-.icon{
-  width:55px;height:55px;
-  background:#0b3d70;
-  border-radius:8px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:28px;
-}
-.main{
-  background:#3b2a1d;
-  padding:25px;
-  position:relative;
-}
-.shop{
-  background:#8b5a32;
-  border:10px solid #5c351e;
-  border-radius:18px;
-  min-height:680px;
-  padding:25px;
-  box-shadow:inset 0 0 30px #2b1609;
-}
-.sign{
-  background:#c62828;
-  color:white;
-  padding:12px;
-  border-radius:10px;
-  text-align:center;
-  font-size:30px;
-  font-weight:bold;
-  box-shadow:0 5px #681313;
-}
-.counter{
-  background:#b9824a;
-  border:8px solid #6b3d1f;
-  border-radius:12px;
-  margin-top:25px;
-  min-height:520px;
-  padding:25px;
-  position:relative;
-}
-.shelves{
-  display:flex;
-  justify-content:space-around;
-  background:#3a2414;
-  padding:15px;
-  border-radius:12px;
-  margin-bottom:20px;
-}
-.shelfItem{
-  font-size:40px;
-  background:#73441f;
-  padding:10px;
-  border-radius:8px;
-}
-.ticket{
-  width:620px;
-  min-height:380px;
-  margin:20px auto;
-  border-radius:12px;
-  padding:20px;
-  position:relative;
-  background:linear-gradient(135deg,#073b75,#0c63bd);
-  border:3px dashed #9bd2ff;
-  box-shadow:0 10px 25px #0009;
-}
-.gold{background:linear-gradient(135deg,#6b4300,#e0a21d)}
-.red{background:linear-gradient(135deg,#641313,#dc3d3d)}
-.green{background:linear-gradient(135deg,#064b2a,#1aa865)}
-.purple{background:linear-gradient(135deg,#33135d,#8e44ad)}
-.ticketTitle{
-  font-size:42px;
-  color:#ffd43b;
-  font-weight:900;
-  text-shadow:3px 3px #000;
-}
-.rule{font-size:18px}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,110px);
-  gap:18px;
-  margin-top:25px;
-}
-.box{
-  width:110px;
-  height:90px;
-  background:#eee;
-  color:#111;
-  border-radius:50%;
-  position:relative;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:28px;
-  font-weight:bold;
-}
+.icon{width:55px;height:55px;background:#0b3d70;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px}
+.table{background:#9a673c;border:10px solid #63391d;border-radius:18px;min-height:700px;padding:25px;position:relative}
+.phone{position:absolute;right:80px;top:20px;font-size:80px}
+.bin{position:absolute;right:40px;bottom:30px;font-size:85px;cursor:pointer;filter:drop-shadow(0 5px 4px #000)}
+.fan{position:absolute;left:40px;top:20px;font-size:70px}
+.ticket{width:520px;min-height:420px;margin:100px auto 10px;padding:20px;border-radius:12px;position:relative;background:#86d8ff;color:#111;border:3px dashed white;box-shadow:0 8px 18px #0008}
+.ticket.apple{background:linear-gradient(#7bd8ff,#b8ecff)}
+.ticket.double{background:linear-gradient(135deg,#073b75,#0c63bd);color:white}
+.ticket.gold{background:linear-gradient(135deg,#6b4300,#e0a21d);color:white}
+.title{font-size:42px;font-weight:900;text-align:center;color:#e71d36}
+.double .title,.gold .title{color:#ffd43b;text-shadow:3px 3px #000}
+.tree{font-size:140px;text-align:center;margin:10px}
+.grid{display:grid;grid-template-columns:repeat(3,100px);gap:18px;justify-content:center}
+.box{width:100px;height:82px;background:#ddd;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;position:relative;overflow:hidden;font-weight:bold}
 .box canvas{position:absolute;inset:0}
-.info{
-  position:absolute;
-  top:110px;
-  right:20px;
-  background:#10294d;
-  border:2px solid #74c0fc;
-  border-radius:10px;
-  padding:15px;
-  width:180px;
-}
-.price{
-  position:absolute;
-  right:25px;
-  bottom:15px;
-  font-size:34px;
-  font-weight:bold;
-}
-.cleanArea{
-  width:620px;
-  height:360px;
-  margin:20px auto;
-  background:#222;
-  border:12px solid #111;
-  border-radius:24px;
-  position:relative;
-  overflow:hidden;
-}
-.window{
-  position:absolute;
-  inset:25px;
-  background:#74c0fc;
-  border-radius:18px;
-  overflow:hidden;
-}
-.dirt{
-  position:absolute;
-  width:70px;
-  height:70px;
-  background:#6b3f1e;
-  border-radius:50%;
-  opacity:.85;
-}
-.sponge{
-  position:absolute;
-  font-size:45px;
-  pointer-events:none;
-  transform:translate(-50%,-50%);
-  display:none;
-}
-.upgrade,.codeBox,.history{
-  background:#17263a;
-  padding:14px;
-  margin:12px 0;
-  border-radius:12px;
-}
-input{
-  width:100%;
-  padding:10px;
-  border-radius:8px;
-  border:0;
-  margin-top:8px;
-}
-.log{
-  background:#0b111c;
-  padding:10px;
-  border-radius:8px;
-  margin:8px 0;
-}
-.resultAnim{
-  position:fixed;
-  inset:0;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  font-size:70px;
-  font-weight:900;
-  z-index:99;
-  background:#0009;
-  animation:pop .6s ease;
-}
-@keyframes pop{
-  0%{transform:scale(.3);opacity:0}
-  60%{transform:scale(1.2);opacity:1}
-  100%{transform:scale(1)}
-}
-@media(max-width:1100px){
-  .game{grid-template-columns:1fr}
-  .ticket,.cleanArea{width:100%}
-}
+.info{position:absolute;right:-260px;top:30px;width:230px;background:#2b1d13e8;color:white;border-radius:12px;padding:15px}
+.prize{background:#ffd43b;color:#111;font-size:30px;font-weight:bold;padding:12px;border-radius:10px;width:220px;margin:15px auto;text-align:center}
+.upgrade,.debt,.history,.code{background:#17263a;padding:14px;border-radius:12px;margin:12px 0}
+.log{background:#0b111c;padding:9px;border-radius:8px;margin:8px 0}
+.anim{position:fixed;inset:0;display:none;align-items:center;justify-content:center;font-size:70px;font-weight:900;background:#0009;z-index:99}
+.cleanArea{width:520px;height:330px;margin:100px auto;background:#222;border:12px solid #111;border-radius:20px;position:relative;overflow:hidden}
+.window{position:absolute;inset:25px;background:#74c0fc;border-radius:18px;overflow:hidden}
+.dirt{position:absolute;width:70px;height:70px;background:#6b3f1e;border-radius:50%;opacity:.85}
+.sponge{position:absolute;font-size:45px;pointer-events:none;display:none}
+input{width:100%;padding:10px;border-radius:8px;border:0}
+@media(max-width:1100px){.game{grid-template-columns:1fr}.ticket,.cleanArea{width:100%}.info{position:static;width:auto;margin-top:15px}}
 </style>
 </head>
 <body>
 
-<div class="resultAnim" id="anim"></div>
+<div class="anim" id="anim"></div>
 
 <div class="game">
 
 <aside class="left">
   <div class="money">🪙 <span id="money">76</span> €</div>
+  <p>Dette : <b id="debt">0</b>€</p>
   <p>Niveau <span id="level">1</span> — XP <span id="xp">0</span>/100</p>
 
-  <button class="tab" onclick="mode='tickets';render()">Tickets</button>
-  <button class="tab" onclick="mode='clean';render()">Nettoyage</button>
+  <button onclick="mode='tickets';render()">Tickets</button>
+  <button onclick="mode='clean';render()">Nettoyer</button>
 
-  <h3>Tickets du tabac</h3>
+  <h3>Catalogue du tabac</h3>
   <div id="ticketList"></div>
 </aside>
 
 <main class="main">
-  <div class="shop">
-    <div class="sign">TABAC — SCRATCH LIFE</div>
-
-    <div class="shelves">
-      <div class="shelfItem">🚬</div>
-      <div class="shelfItem">📰</div>
-      <div class="shelfItem">☕</div>
-      <div class="shelfItem">🎟️</div>
-      <div class="shelfItem">☎️</div>
-    </div>
-
-    <div class="counter" id="center"></div>
+  <div class="table">
+    <div class="fan">🌀</div>
+    <div class="phone">☎️</div>
+    <div id="center"></div>
+    <div class="bin" onclick="throwTicket()">🗑️</div>
   </div>
 </main>
 
@@ -278,20 +74,37 @@ input{
   <div class="upgrade">
     🍀 <b>Chance</b><br>
     Niveau : <span id="chanceLevel">1</span><br>
+    Chance générale : <span id="chanceValue">25</span>%<br>
     Prix : <span id="chanceCost">500</span>€<br>
     <button onclick="buyChance()">Améliorer</button>
+  </div>
+
+  <div class="upgrade">
+    ✨ <b>Chance de symbole</b><br>
+    Niveau : <span id="symbolLevel">1</span><br>
+    Bonus symbole : <span id="symbolChance">5</span>%<br>
+    Prix : <span id="symbolCost">750</span>€<br>
+    <button onclick="buySymbolChance()">Améliorer</button>
   </div>
 
   <div class="upgrade">
     🧽 <b>Nettoyage</b><br>
     Gain : <span id="cleanGain">5</span>€<br>
     Prix : <span id="cleanCost">100</span>€<br>
-    <button onclick="buyCleanUpgrade()">Améliorer</button>
+    <button onclick="buyClean()">Améliorer</button>
   </div>
 
-  <div class="codeBox">
+  <div class="debt">
+    <h3>Règle dette</h3>
+    <p>Si un ticket perdant est jeté à la poubelle, tu gagnes une dette égale au double du prix du ticket.</p>
+    <p>Si la dette n’est pas remboursée après 24h fictives, tu es bloqué 50h fictives.</p>
+    <button onclick="payDebt()">Rembourser dette</button>
+    <p id="timerText"></p>
+  </div>
+
+  <div class="code">
     <b>Code secret</b>
-    <input id="codeInput" placeholder="Entre un code">
+    <input id="codeInput" placeholder="Code">
     <button onclick="useCode()">Valider</button>
   </div>
 
@@ -302,335 +115,268 @@ input{
 </div>
 
 <script>
-let money=76;
-let xp=0;
-let level=1;
-let selected=0;
-let mode="tickets";
-let chanceLevel=1;
-let cleanLevel=1;
-let cleanGain=5;
-let infiniteMoney=false;
-let ticketFinished=false;
+let money=76,xp=0,level=1,debt=0;
+let chanceLevel=1,symbolLevel=1,cleanLevel=1,cleanGain=5;
+let selected=0,mode="tickets",infinite=false;
+let currentTicket=null,currentPrize=0,currentLost=false,currentResolved=false;
+let debtTimer=0,blockedTimer=0;
 
 const tickets=[
-  {name:"Mini Ticket",icon:"🎟️",price:1,max:20,rule:"symbol",level:1,style:""},
-  {name:"Doublette ⭐",icon:"2x",price:10,max:2000,rule:"double",level:1,style:""},
-  {name:"Trésor",icon:"💰",price:20,max:5000,rule:"chest",level:2,style:"gold"},
-  {name:"Numéro Fétiche",icon:"7️⃣",price:30,max:8000,rule:"number",level:3,style:"red"},
-  {name:"Coffre d’Or",icon:"🔐",price:50,max:15000,rule:"symbol",level:4,style:"green"},
-  {name:"Néon Jackpot",icon:"💎",price:100,max:30000,rule:"double",level:5,style:"purple"}
+{name:"Mini ticket",icon:"🎟️",price:1,max:20,rule:"symbol",level:1,style:""},
+{name:"Doublette ⭐",icon:"2x",price:10,max:2000,rule:"double",level:1,style:"double"},
+{name:"Pommier",icon:"🌳",price:2000,max:6500,rule:"apple",level:2,style:"apple"},
+{name:"Trésor",icon:"💰",price:20,max:5000,rule:"chest",level:2,style:"gold"},
+{name:"Numéro Fétiche",icon:"7️⃣",price:30,max:8000,rule:"number",level:3,style:"double"},
+{name:"Coffre d’Or",icon:"🔐",price:50,max:15000,rule:"symbol",level:4,style:"gold"}
 ];
 
 function update(){
-  document.getElementById("money").textContent=infiniteMoney?"∞":money;
-  document.getElementById("xp").textContent=xp;
-  document.getElementById("level").textContent=level;
-  document.getElementById("chanceLevel").textContent=chanceLevel;
-  document.getElementById("chanceCost").textContent=chanceLevel*500;
-  document.getElementById("cleanGain").textContent=cleanGain;
-  document.getElementById("cleanCost").textContent=cleanLevel*100;
-  renderList();
+money=Math.floor(money);
+document.getElementById("money").textContent=infinite?"∞":money;
+document.getElementById("debt").textContent=debt;
+document.getElementById("xp").textContent=xp;
+document.getElementById("level").textContent=level;
+document.getElementById("chanceLevel").textContent=chanceLevel;
+document.getElementById("chanceValue").textContent=20+chanceLevel*5;
+document.getElementById("chanceCost").textContent=chanceLevel*500;
+document.getElementById("symbolLevel").textContent=symbolLevel;
+document.getElementById("symbolChance").textContent=symbolLevel*5;
+document.getElementById("symbolCost").textContent=symbolLevel*750;
+document.getElementById("cleanGain").textContent=cleanGain;
+document.getElementById("cleanCost").textContent=cleanLevel*100;
+document.getElementById("timerText").textContent=blockedTimer>0?"Blocage : "+blockedTimer+"h restantes":debt>0?"Dette à payer avant : "+debtTimer+"h":"Aucune dette.";
+renderList();
 }
 
-function addHistory(text){
-  const div=document.createElement("div");
-  div.className="log";
-  div.innerHTML=text;
-  document.getElementById("history").prepend(div);
+function log(t){
+let d=document.createElement("div");
+d.className="log";
+d.innerHTML=t;
+history.prepend(d);
 }
 
-function anim(text,color){
-  const a=document.getElementById("anim");
-  a.textContent=text;
-  a.style.color=color;
-  a.style.display="flex";
-  setTimeout(()=>a.style.display="none",1200);
+function pop(t,c){
+anim.textContent=t;
+anim.style.color=c;
+anim.style.display="flex";
+setTimeout(()=>anim.style.display="none",1200);
 }
 
 function gainXp(n){
-  xp+=n;
-  if(xp>=100){
-    xp-=100;
-    level++;
-    anim("NIVEAU +1 ⭐","#ffd43b");
-    addHistory("⭐ Niveau supérieur : "+level);
-  }
+xp+=n;
+if(xp>=100){xp-=100;level++;pop("NIVEAU +1 ⭐","#ffd43b");}
 }
 
 function renderList(){
-  const list=document.getElementById("ticketList");
-  list.innerHTML="";
-  tickets.forEach((t,i)=>{
-    const locked=level<t.level;
-    const div=document.createElement("div");
-    div.className="item "+(i===selected?"active ":"")+(locked?"locked":"");
-    div.onclick=()=>{
-      if(locked)return;
-      selected=i;
-      mode="tickets";
-      render();
-    };
-    div.innerHTML=`
-      <div class="icon">${t.icon}</div>
-      <div>
-        <b>${locked?"Verrouillé":t.name}</b><br>
-        ${locked?"Niveau "+t.level+" requis":t.price+" €"}<br>
-        Gain max : ${locked?"?":t.max+"€"}
-      </div>`;
-    list.appendChild(div);
-  });
+ticketList.innerHTML="";
+tickets.forEach((t,i)=>{
+let locked=level<t.level;
+let div=document.createElement("div");
+div.className="item "+(selected===i?"active ":"");
+if(locked)div.style.opacity=.4;
+div.onclick=()=>{if(!locked){selected=i;mode="tickets";render();}};
+div.innerHTML=`<div class="icon">${t.icon}</div><div><b>${locked?"Verrouillé":t.name}</b><br>${locked?"Niveau "+t.level:t.price+"€"}<br>Max : ${locked?"?":t.max+"€"}</div>`;
+ticketList.appendChild(div);
+});
 }
 
 function render(){
-  if(mode==="clean") renderClean();
-  else renderTicket();
-  update();
+if(blockedTimer>0){
+center.innerHTML="<h1>⛔ Bloqué</h1><p>Tu dois attendre la fin du blocage pour rejouer.</p>";
+update();return;
+}
+if(mode==="clean")renderClean();else renderTicket();
+update();
 }
 
 function renderTicket(){
-  ticketFinished=false;
-  const t=tickets[selected];
-  const center=document.getElementById("center");
+let t=tickets[selected];
+if(!infinite && money<t.price){
+center.innerHTML="<h2>Pas assez d’argent.</h2><p>Nettoie des vitres pour acheter ce ticket.</p>";
+return;
+}
+if(!infinite)money-=t.price;
 
-  if(!infiniteMoney && money<t.price){
-    center.innerHTML=`<h2>Pas assez d’argent pour ${t.name}</h2><p>Va nettoyer une vitre, petit entrepreneur du trottoir.</p>`;
-    return;
-  }
+currentTicket=t;
+currentResolved=false;
+currentLost=false;
 
-  if(!infiniteMoney) money-=t.price;
+let chance=20+chanceLevel*5;
+if(t.rule==="symbol"||t.rule==="apple")chance+=symbolLevel*5;
+let win=Math.random()*100<chance;
+currentPrize=win?Math.floor(Math.random()*t.max)+1:0;
+currentLost=!win;
 
-  const winChance=20+chanceLevel*5;
-  const isWin=Math.random()*100<winChance;
-  const prize=isWin?Math.floor(Math.random()*t.max)+1:0;
-  const values=generateValues(t.rule,isWin,prize);
+center.innerHTML=`
+<div class="ticket ${t.style}">
+  <div class="title">${t.name}</div>
+  ${t.rule==="apple"?"<div class='tree'>🌳</div>":""}
+  <p>${ruleText(t.rule)}</p>
+  <div class="grid" id="grid"></div>
+  <div class="info">
+    <h2>${t.name}</h2>
+    <p>${ruleText(t.rule)}</p>
+    <h3>Chance de symbole</h3>
+    <p>🍀 ${chance}%</p>
+    <p>Gain max : ${t.max}€</p>
+    <p>Prix : ${t.price}€</p>
+  </div>
+  <div class="prize">${win?currentPrize+"€":"?"}</div>
+</div>
+<p>Gratte les zones grises. Si c’est perdant, tu peux le jeter à la poubelle, mais dette x2.</p>
+`;
 
-  center.innerHTML=`
-    <div class="ticket ${t.style}">
-      <div class="ticketTitle">${t.name}</div>
-      <p class="rule">${ruleText(t.rule)}</p>
-      <div class="grid" id="grid"></div>
-      <div class="info">
-        <h3>Gain jusqu’à</h3>
-        <h2>${t.max}€</h2>
-        <p>Prix : ${t.price}€</p>
-        <p>Chance : ${winChance}%</p>
-      </div>
-      <div class="price">${t.price}€</div>
-    </div>
-    <p>Gratte directement les zones grises.</p>
-  `;
-
-  const grid=document.getElementById("grid");
-  values.forEach(v=>{
-    const box=document.createElement("div");
-    box.className="box";
-    box.innerHTML=`<span>${v}</span>`;
-    const c=document.createElement("canvas");
-    c.width=110;
-    c.height=90;
-    box.appendChild(c);
-    grid.appendChild(box);
-    setupScratch(c,prize,t);
-  });
-
-  addHistory("🎟️ Ticket acheté : "+t.name+" (-"+t.price+"€)");
-  update();
+let values=valuesFor(t.rule,win,currentPrize);
+values.forEach(v=>{
+let b=document.createElement("div");
+b.className="box";
+b.innerHTML="<span>"+v+"</span>";
+let c=document.createElement("canvas");
+c.width=100;c.height=82;
+b.appendChild(c);
+grid.appendChild(b);
+scratch(c);
+});
+log("🎟️ Ticket acheté : "+t.name+" (-"+t.price+"€)");
 }
 
-function ruleText(rule){
-  if(rule==="symbol")return"Trouvez 3 symboles identiques.";
-  if(rule==="double")return"Trouvez 2 sommes identiques.";
-  if(rule==="number")return"Trouvez le numéro gagnant.";
-  if(rule==="chest")return"Trouvez la clé du coffre.";
+function ruleText(r){
+if(r==="symbol")return"Trouvez 3 symboles identiques.";
+if(r==="double")return"Trouvez 2 sommes identiques.";
+if(r==="number")return"Trouvez le numéro gagnant.";
+if(r==="chest")return"Trouvez la clé.";
+if(r==="apple")return"Gagnez selon le fruit trouvé, mais gare aux vers.";
 }
 
-function generateValues(rule,isWin,prize){
-  if(rule==="symbol"){
-    if(isWin)return["👑","👑","👑","🍀","⭐","💎"];
-    return["🍀","⭐","💎","🔔","👑","🍒"];
-  }
-  if(rule==="double"){
-    if(isWin)return[prize+"€",prize+"€","10€","20€","50€","100€"];
-    return["5€","10€","20€","50€","100€","200€"];
-  }
-  if(rule==="number"){
-    let n=Math.floor(Math.random()*9)+1;
-    if(isWin)return["N° "+n,n,"2","4","6","8"];
-    return["N° "+n,"1","3","5","7","9"];
-  }
-  if(rule==="chest"){
-    if(isWin)return["🔑","💰","💰","❌","❌","❌"];
-    return["❌","💰","❌","💰","❌","💰"];
-  }
+function valuesFor(r,win,p){
+if(r==="apple"){
+if(win)return["🍏","🍎","🍏","🍎","🍋","⭐"];
+return["🪱","🍃","🐝","🦟","🍏","🍎"];
+}
+if(r==="symbol")return win?["👑","👑","👑","🍀","⭐","💎"]:["🍀","⭐","💎","🔔","👑","🍒"];
+if(r==="double")return win?[p+"€",p+"€","10€","20€","50€","100€"]:["5€","10€","20€","50€","100€","200€"];
+if(r==="number"){let n=Math.floor(Math.random()*9)+1;return win?["N° "+n,n,"2","4","6","8"]:["N° "+n,"1","3","5","7","9"];}
+if(r==="chest")return win?["🔑","💰","💰","❌","❌","❌"]:["❌","💰","❌","💰","❌","💰"];
 }
 
-function setupScratch(canvas,prize,ticket){
-  const ctx=canvas.getContext("2d");
-  ctx.fillStyle="#bbb";
-  ctx.fillRect(0,0,110,90);
-  ctx.fillStyle="#777";
-  ctx.font="30px Arial";
-  ctx.fillText("?",47,55);
-  ctx.globalCompositeOperation="destination-out";
-
-  function scratch(x,y){
-    ctx.beginPath();
-    ctx.arc(x,y,18,0,Math.PI*2);
-    ctx.fill();
-    checkTicket(prize,ticket);
-  }
-
-  canvas.addEventListener("mousemove",e=>{
-    if(e.buttons!==1)return;
-    const r=canvas.getBoundingClientRect();
-    scratch(e.clientX-r.left,e.clientY-r.top);
-  });
-
-  canvas.addEventListener("touchmove",e=>{
-    e.preventDefault();
-    const r=canvas.getBoundingClientRect();
-    const touch=e.touches[0];
-    scratch(touch.clientX-r.left,touch.clientY-r.top);
-  },{passive:false});
+function scratch(c){
+let ctx=c.getContext("2d");
+ctx.fillStyle="#bfc3c7";ctx.fillRect(0,0,100,82);
+ctx.fillStyle="#777";ctx.font="28px Arial";ctx.fillText("?",43,50);
+ctx.globalCompositeOperation="destination-out";
+function doScratch(x,y){
+ctx.beginPath();ctx.arc(x,y,17,0,Math.PI*2);ctx.fill();checkScratch();
+}
+c.addEventListener("mousemove",e=>{if(e.buttons!==1)return;let r=c.getBoundingClientRect();doScratch(e.clientX-r.left,e.clientY-r.top);});
+c.addEventListener("touchmove",e=>{e.preventDefault();let r=c.getBoundingClientRect();let t=e.touches[0];doScratch(t.clientX-r.left,t.clientY-r.top);},{passive:false});
 }
 
-function checkTicket(prize,ticket){
-  if(ticketFinished)return;
-
-  const canvases=[...document.querySelectorAll(".box canvas")];
-  let total=0;
-
-  canvases.forEach(c=>{
-    const ctx=c.getContext("2d");
-    const data=ctx.getImageData(0,0,110,90).data;
-    let clear=0;
-    for(let i=3;i<data.length;i+=4){
-      if(data[i]===0)clear++;
-    }
-    if(clear/(110*90)*100>55){
-      c.style.display="none";
-      total++;
-    }
-  });
-
-  if(total===canvases.length){
-    ticketFinished=true;
-
-    if(prize>0){
-      money+=prize;
-      gainXp(20);
-      anim("GAGNÉ +" + prize + "€","lime");
-      addHistory("✅ "+ticket.name+" : gagné +"+prize+"€");
-    }else{
-      gainXp(8);
-      anim("PERDU","red");
-      addHistory("❌ "+ticket.name+" : perdu");
-    }
-
-    update();
-  }
+function checkScratch(){
+if(currentResolved)return;
+let all=[...document.querySelectorAll(".box canvas")];
+let done=0;
+all.forEach(c=>{
+let ctx=c.getContext("2d"),data=ctx.getImageData(0,0,100,82).data,clear=0;
+for(let i=3;i<data.length;i+=4)if(data[i]===0)clear++;
+if(clear/(100*82)*100>55){c.style.display="none";done++;}
+});
+if(done===all.length){
+currentResolved=true;
+if(currentPrize>0){
+money+=currentPrize;gainXp(20);pop("GAGNÉ +"+currentPrize+"€","lime");log("✅ Gagné +"+currentPrize+"€");
+}else{
+gainXp(8);pop("PERDU","red");log("❌ Ticket perdant. Tu peux le jeter, mais dette x2.");
 }
+update();
+}
+}
+
+function throwTicket(){
+if(!currentTicket||!currentResolved){pop("RIEN À JETER","white");return;}
+if(!currentLost){pop("PAS BESOIN","lime");return;}
+let d=currentTicket.price*2;
+debt+=d;
+debtTimer=24;
+currentTicket=null;
+currentLost=false;
+pop("DETTE +"+d+"€","red");
+log("🗑️ Ticket jeté : dette +"+d+"€");
+update();
+}
+
+function payDebt(){
+if(debt<=0){log("Aucune dette.");return;}
+if(!infinite&&money<debt){log("❌ Pas assez pour rembourser.");return;}
+if(!infinite)money-=debt;
+log("✅ Dette remboursée : "+debt+"€");
+debt=0;debtTimer=0;
+update();
+}
+
+setInterval(()=>{
+if(debt>0&&debtTimer>0){debtTimer--;}
+if(debt>0&&debtTimer===0&&blockedTimer===0){
+blockedTimer=50;
+pop("BLOQUÉ 50H","red");
+log("⛔ Dette non payée : blocage 50h fictives.");
+}
+if(blockedTimer>0){
+blockedTimer--;
+if(blockedTimer===0)log("✅ Blocage terminé.");
+}
+update();
+},3000);
 
 function renderClean(){
-  const center=document.getElementById("center");
-  center.innerHTML=`
-    <h2>Nettoyage de vitre</h2>
-    <p>Maintiens la souris ou ton doigt et frotte les taches.</p>
-    <div class="cleanArea" id="cleanArea">
-      <div class="window" id="window"></div>
-      <div class="sponge" id="sponge">🧽</div>
-    </div>
-  `;
-
-  const w=document.getElementById("window");
-  for(let i=0;i<18;i++){
-    const d=document.createElement("div");
-    d.className="dirt";
-    d.style.left=Math.random()*500+"px";
-    d.style.top=Math.random()*250+"px";
-    w.appendChild(d);
-  }
-
-  const area=document.getElementById("cleanArea");
-  const sponge=document.getElementById("sponge");
-
-  function cleanAt(x,y){
-    sponge.style.display="block";
-    sponge.style.left=x+"px";
-    sponge.style.top=y+"px";
-
-    document.querySelectorAll(".dirt").forEach(d=>{
-      const rect=d.getBoundingClientRect();
-      const ar=area.getBoundingClientRect();
-      const dx=(rect.left-ar.left+35)-x;
-      const dy=(rect.top-ar.top+35)-y;
-      if(Math.sqrt(dx*dx+dy*dy)<55)d.remove();
-    });
-
-    if(document.querySelectorAll(".dirt").length===0){
-      money+=cleanGain;
-      gainXp(5);
-      anim("VITRE PROPRE +" + cleanGain + "€","#51cf66");
-      addHistory("🧽 Vitre nettoyée : +"+cleanGain+"€");
-      setTimeout(renderClean,900);
-      update();
-    }
-  }
-
-  area.addEventListener("mousemove",e=>{
-    if(e.buttons!==1)return;
-    const r=area.getBoundingClientRect();
-    cleanAt(e.clientX-r.left,e.clientY-r.top);
-  });
-
-  area.addEventListener("touchmove",e=>{
-    e.preventDefault();
-    const r=area.getBoundingClientRect();
-    const t=e.touches[0];
-    cleanAt(t.clientX-r.left,t.clientY-r.top);
-  },{passive:false});
+center.innerHTML=`
+<h2>Nettoyage de vitre</h2>
+<p>Frotte les taches avec l’éponge.</p>
+<div class="cleanArea" id="cleanArea"><div class="window" id="win"></div><div class="sponge" id="sp">🧽</div></div>`;
+for(let i=0;i<18;i++){
+let d=document.createElement("div");
+d.className="dirt";
+d.style.left=Math.random()*420+"px";
+d.style.top=Math.random()*220+"px";
+win.appendChild(d);
+}
+cleanArea.addEventListener("mousemove",e=>{if(e.buttons!==1)return;cleanAt(e);});
+cleanArea.addEventListener("touchmove",e=>{e.preventDefault();cleanAt(e.touches[0]);},{passive:false});
 }
 
-function buyChance(){
-  const cost=chanceLevel*500;
-  if(!infiniteMoney && money<cost){
-    addHistory("❌ Pas assez d’argent.");
-    return;
-  }
-  if(!infiniteMoney)money-=cost;
-  chanceLevel++;
-  anim("CHANCE +1 🍀","#51cf66");
-  update();
+function cleanAt(e){
+let r=cleanArea.getBoundingClientRect();
+let x=e.clientX-r.left,y=e.clientY-r.top;
+sp.style.display="block";sp.style.left=x+"px";sp.style.top=y+"px";
+document.querySelectorAll(".dirt").forEach(d=>{
+let dr=d.getBoundingClientRect();
+let dx=dr.left-r.left+35-x,dy=dr.top-r.top+35-y;
+if(Math.sqrt(dx*dx+dy*dy)<55)d.remove();
+});
+if(document.querySelectorAll(".dirt").length===0){
+money+=cleanGain;gainXp(5);pop("VITRE PROPRE +"+cleanGain+"€","#51cf66");log("🧽 Nettoyage +"+cleanGain+"€");setTimeout(renderClean,700);update();
+}
 }
 
-function buyCleanUpgrade(){
-  const cost=cleanLevel*100;
-  if(!infiniteMoney && money<cost){
-    addHistory("❌ Pas assez d’argent.");
-    return;
-  }
-  if(!infiniteMoney)money-=cost;
-  cleanLevel++;
-  cleanGain+=5;
-  anim("NETTOYAGE +1 🧽","#74c0fc");
-  update();
+function buyChance(){buy("chance")}
+function buySymbolChance(){buy("symbol")}
+function buyClean(){buy("clean")}
+function buy(type){
+let cost=type==="chance"?chanceLevel*500:type==="symbol"?symbolLevel*750:cleanLevel*100;
+if(!infinite&&money<cost){log("❌ Pas assez d’argent.");return;}
+if(!infinite)money-=cost;
+if(type==="chance")chanceLevel++;
+if(type==="symbol")symbolLevel++;
+if(type==="clean"){cleanLevel++;cleanGain+=5;}
+pop("AMÉLIORÉ","#ffd43b");update();
 }
 
 function useCode(){
-  const code=document.getElementById("codeInput").value;
-  if(code==="3000"){
-    infiniteMoney=true;
-    anim("ARGENT INFINI 💸","#ffd43b");
-    addHistory("💸 Code 3000 activé : argent infini.");
-  }else{
-    anim("CODE FAUX","red");
-  }
-  update();
+if(codeInput.value==="3000"){infinite=true;pop("ARGENT INFINI 💸","#ffd43b");log("💸 Code 3000 activé.");}
+else pop("CODE FAUX","red");
+update();
 }
 
 render();
 </script>
-
 </body>
 </html>

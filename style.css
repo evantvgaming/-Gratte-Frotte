@@ -436,3 +436,38 @@ button {
     margin-top: 15px;
   }
 }
+
+.car-clean-box {
+  width: 420px;
+  height: 240px;
+  background: #1f2937;
+  border: 10px solid #111;
+  border-radius: 22px;
+  margin: 20px auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.car-window {
+  position: absolute;
+  inset: 25px;
+  background: #7dd3fc;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.dirt {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: #5c3b1e;
+  border-radius: 50%;
+  opacity: 0.85;
+}
+
+.sponge {
+  position: absolute;
+  font-size: 42px;
+  pointer-events: none;
+  display: none;
+}
